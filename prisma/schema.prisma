@@ -1,21 +1,299 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../lib/generated/prisma"
 }
 
 datasource db {
-  provider  = "postgresql"
+  provider = "postgresql"
 }
 
-model Expense {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  name      String
-  amount    Float
+enum AccountType {
+  cash
+  bank
+  investment
+  other
 }
- 
+
+enum CategoryType {
+  income
+  expense
+}
+
+enum TransactionType {
+  income
+  expense
+  transfer
+}
+
+enum AssetType {
+  stock
+  etf
+  bond
+  crypto
+  conto_deposito
+  other
+}
+
+enum AssetClass {
+  cash
+  stocks
+  bonds
+  other
+}
+
+enum Frequency {
+  monthly
+  weekly
+  yearly
+}
+
+enum RecurringType {
+  income
+  expense
+}
+
+enum DraftStatus {
+  pending
+  confirmed
+  skipped
+}
+
+enum EventType {
+  viaggio
+  evento
+  periodo
+  altro
+}
+
+enum NotificationType {
+  budget_warning
+  income_expected
+  draft_pending
+  month_close_reminder
+  goal_progress
+  recurring_reminder
+}
+
+model User {
+  id          String   @id @default(uuid())
+  clerkUserId String   @unique
+  email       String   @unique
+  createdAt   DateTime @default(now())
+
+  accounts   Account[]
+  categories Category[]
+}
+
+model Account {
+  id                   String      @id @default(uuid())
+  userId               String
+  user                 User        @relation(fields: [userId], references: [id])
+  name                 String
+  type                 AccountType
+  openingBalance       Decimal
+  openingDate          DateTime
+  currency             String      @default("EUR")
+  isActive             Boolean     @default(true)
+  linkedForInvestments Boolean     @default(false)
+
+  transactions       Transaction[]
+  assetOrders        AssetOrder[]
+  goals              Goal[]
+  recurringTemplates RecurringTemplate[]
+}
+
+model Category {
+  id        String       @id @default(uuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id])
+  name      String
+  type      CategoryType
+  icon      String?
+  color     String?
+  isActive  Boolean      @default(true)
+  sortOrder Int          @default(0)
+
+  transactions       Transaction[]
+  autofillRules      AutofillRule[]
+  recurringTemplates RecurringTemplate[]
+  budgets            Budget[]
+}
+
+model Transaction {
+  id           String          @id @default(uuid())
+  accountId    String
+  account      Account         @relation(fields: [accountId], references: [id])
+  categoryId   String?
+  category     Category?       @relation(fields: [categoryId], references: [id])
+  date         DateTime
+  type         TransactionType
+  payee        String
+  memo         String?
+  amount       Decimal
+  currency     String          @default("EUR")
+  exchangeRate Decimal?
+  createdAt    DateTime        @default(now())
+
+  transferFrom      TransferLink?      @relation("FromTransaction")
+  transferTo        TransferLink?      @relation("ToTransaction")
+  assetOrder        AssetOrder?
+  transactionEvents TransactionEvent[]
+}
+
+model TransferLink {
+  id                String      @id @default(uuid())
+  fromTransactionId String      @unique
+  toTransactionId   String      @unique
+  fromTransaction   Transaction @relation("FromTransaction", fields: [fromTransactionId], references: [id])
+  toTransaction     Transaction @relation("ToTransaction", fields: [toTransactionId], references: [id])
+}
+
+model AutofillRule {
+  id           String    @id @default(uuid())
+  payeeKeyword String
+  categoryId   String
+  category     Category  @relation(fields: [categoryId], references: [id])
+  isFavorite   Boolean   @default(false)
+  useCount     Int       @default(0)
+  lastUsed     DateTime?
+}
+
+model Asset {
+  id        String    @id @default(uuid())
+  ticker    String
+  name      String
+  assetType AssetType
+  currency  String    @default("EUR")
+  isActive  Boolean   @default(true)
+
+  assetOrders AssetOrder[]
+  assetPrices AssetPrice[]
+}
+
+model AssetOrder {
+  id                  String       @id @default(uuid())
+  assetId             String
+  asset               Asset        @relation(fields: [assetId], references: [id])
+  accountId           String
+  account             Account      @relation(fields: [accountId], references: [id])
+  linkedTransactionId String?      @unique
+  linkedTransaction   Transaction? @relation(fields: [linkedTransactionId], references: [id])
+  orderDate           DateTime
+  deltaUnits          Decimal
+  orderPrice          Decimal
+  fees                Decimal?
+}
+
+model AssetPrice {
+  id        String   @id @default(uuid())
+  assetId   String
+  asset     Asset    @relation(fields: [assetId], references: [id])
+  price     Decimal
+  fetchedAt DateTime @default(now())
+  source    String
+}
+
+model AssetAllocation {
+  id         String     @id @default(uuid())
+  name       String
+  assetClass AssetClass
+  targetPct  Decimal
+}
+
+model RecurringTemplate {
+  id                 String        @id @default(uuid())
+  categoryId         String
+  category           Category      @relation(fields: [categoryId], references: [id])
+  accountId          String
+  account            Account       @relation(fields: [accountId], references: [id])
+  type               RecurringType
+  payee              String
+  amount             Decimal?
+  isFixedAmount      Boolean       @default(true)
+  frequency          Frequency
+  dayOfMonth         Int
+  isStructural       Boolean       @default(false)
+  draftMode          Boolean       @default(false)
+  reminderDaysBefore Int           @default(0)
+  isActive           Boolean       @default(true)
+
+  drafts               TransactionDraft[]
+  notificationSettings NotificationSetting[]
+}
+
+model TransactionDraft {
+  id                  String            @id @default(uuid())
+  recurringTemplateId String
+  recurringTemplate   RecurringTemplate @relation(fields: [recurringTemplateId], references: [id])
+  suggestedDate       DateTime
+  suggestedAmount     Decimal?
+  status              DraftStatus       @default(pending)
+  createdAt           DateTime          @default(now())
+  resolvedAt          DateTime?
+}
+
+model Budget {
+  id          String   @id @default(uuid())
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  amount      Decimal
+  isRecurring Boolean  @default(true)
+  month       Int?
+  year        Int?
+}
+
+model Goal {
+  id              String    @id @default(uuid())
+  linkedAccountId String?
+  linkedAccount   Account?  @relation(fields: [linkedAccountId], references: [id])
+  name            String
+  targetAmount    Decimal
+  deadline        DateTime?
+  isCompleted     Boolean   @default(false)
+}
+
+model MonthlySnapshot {
+  id               String    @id @default(uuid())
+  year             Int
+  month            Int
+  cashValue        Decimal
+  stocksValue      Decimal
+  bondsValue       Decimal
+  totalNw          Decimal
+  income           Decimal
+  expenses         Decimal
+  isAuto           Boolean   @default(false)
+  canClose         Boolean   @default(false)
+  closedAt         DateTime?
+  modifiedAt       DateTime?
+  modificationNote String?
+}
+
+model Event {
+  id        String    @id @default(uuid())
+  name      String
+  type      EventType
+  startDate DateTime
+  endDate   DateTime?
+  notes     String?
+
+  transactionEvents TransactionEvent[]
+}
+
+model TransactionEvent {
+  transactionId String
+  eventId       String
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  event         Event       @relation(fields: [eventId], references: [id])
+
+  @@id([transactionId, eventId])
+}
+
+model NotificationSetting {
+  id                  String             @id @default(uuid())
+  recurringTemplateId String?
+  recurringTemplate   RecurringTemplate? @relation(fields: [recurringTemplateId], references: [id])
+  notificationType    NotificationType
+  isEnabled           Boolean            @default(true)
+  thresholdPct        Decimal?
+}
