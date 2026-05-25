@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NW Tracker
+
+Personal finance and net worth tracking web app.
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript
+- **Database:** PostgreSQL (Supabase)
+- **ORM:** Prisma 7
+- **Auth:** Clerk
+- **Styling:** Tailwind CSS + shadcn/ui
+- **Deploy:** Vercel
+
+## Dashboards
+
+- [Clerk](https://clerk.com/dashboard) — autenticazione e utenti
+- [Supabase](https://supabase.com/dashboard) — database
+- [Vercel](https://vercel.com/dashboard) — deploy e logs
+- [ngrok](https://dashboard.ngrok.com) — tunnel locale per webhook
 
 ## Getting Started
 
-First, run the development server:
+Installa le dipendenze:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Crea un file `.env` partendo da `.env.example` e compila le variabili.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Avvia il server di sviluppo:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev          # solo Next.js
+npm run dev:tunnel   # Next.js + ngrok (per testare i webhook)
+```
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Comando              | Descrizione                           |
+| -------------------- | ------------------------------------- |
+| `npm run dev`        | Avvia Next.js in locale               |
+| `npm run dev:tunnel` | Avvia Next.js + ngrok                 |
+| `npm run build`      | Build di produzione                   |
+| `npm run db:migrate` | Crea e applica una nuova migrazione   |
+| `npm run db:studio`  | Apre Prisma Studio (GUI del database) |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Environment Variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Vedi `.env.example` per la lista completa delle variabili necessarie.
