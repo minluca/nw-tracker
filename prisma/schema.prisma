@@ -80,8 +80,14 @@ model User {
   email       String   @unique
   createdAt   DateTime @default(now())
 
-  accounts   Account[]
-  categories Category[]
+  accounts           Account[]
+  categories         Category[]
+  monthlySnapshots   MonthlySnapshot[]
+  goals              Goal[]
+  assetAllocations   AssetAllocation[]
+  budgets            Budget[]
+  events             Event[]
+  recurringTemplates RecurringTemplate[]
 }
 
 model Account {
@@ -195,6 +201,8 @@ model AssetPrice {
 
 model AssetAllocation {
   id         String     @id @default(uuid())
+  userId     String
+  user       User       @relation(fields: [userId], references: [id])
   name       String
   assetClass AssetClass
   targetPct  Decimal
@@ -202,6 +210,8 @@ model AssetAllocation {
 
 model RecurringTemplate {
   id                 String        @id @default(uuid())
+  userId             String
+  user               User          @relation(fields: [userId], references: [id])
   categoryId         String
   category           Category      @relation(fields: [categoryId], references: [id])
   accountId          String
@@ -234,6 +244,8 @@ model TransactionDraft {
 
 model Budget {
   id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
   categoryId  String
   category    Category @relation(fields: [categoryId], references: [id])
   amount      Decimal
@@ -244,6 +256,8 @@ model Budget {
 
 model Goal {
   id              String    @id @default(uuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
   linkedAccountId String?
   linkedAccount   Account?  @relation(fields: [linkedAccountId], references: [id])
   name            String
@@ -254,6 +268,8 @@ model Goal {
 
 model MonthlySnapshot {
   id               String    @id @default(uuid())
+  userId           String
+  user             User      @relation(fields: [userId], references: [id])
   year             Int
   month            Int
   cashValue        Decimal
@@ -271,6 +287,8 @@ model MonthlySnapshot {
 
 model Event {
   id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
   name      String
   type      EventType
   startDate DateTime
