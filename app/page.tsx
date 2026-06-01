@@ -6,6 +6,7 @@ import { getAssetOrderByAccountIds } from "@/lib/db/assets";
 import { calculateLiquidity, calculateInvestments } from "@/lib/calculations";
 import { getLastMonthlySnapshot } from "@/lib/db/snapshots";
 import NetWorthCard from "@/components/NetWorthCard";
+import AddTransactionButton from "@/components/AddTransactionButton";
 
 export default async function Home() {
   const user = await getAuthenticatedUser();
@@ -28,6 +29,7 @@ export default async function Home() {
 
   return (
     <main className="p-4 flex flex-col gap-4">
+      <AddTransactionButton></AddTransactionButton>
       <NetWorthCard
         liquidity={liquidity}
         investments={investments}
