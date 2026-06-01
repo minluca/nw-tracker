@@ -1,5 +1,8 @@
 import { withAuth } from "@/lib/api";
-import prisma from "@/lib/prisma";
+import {
+  createTransaction,
+  getLastFiveTransactions,
+} from "@/lib/db/transactions";
 import { transactionPost } from "@/lib/validators/transactions";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -11,32 +14,8 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   return withAuth(async (user) => {
     try {
-      const lastFiveTransactions = await prisma.transaction.findMany({
-        where: {
-          account: {
-            userId: user.id,
-          },
-        },
-        orderBy: { date: "desc" },
-        take: 5,
-        select: {
-          id: true,
-          date: true,
-          payee: true,
-          amount: true,
-          currency: true,
-          type: true,
-          category: {
-            select: {
-              name: true,
-              icon: true,
-              color: true,
-            },
-          },
-        },
-      });
-
-      return NextResponse.json(lastFiveTransactions);
+      const transactions = await getLastFiveTransactions(user.id);
+      return NextResponse.json(transactions);
     } catch (e) {
       return NextResponse.json(
         { error: "[TRANSACTIONS] Failed to fetch transactions" },
@@ -69,20 +48,12 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      const transactionInsert = await prisma.transaction.create({
-        data: {
-          accountId: validatedBody.data.accountId,
-          type: validatedBody.data.type,
-          payee: validatedBody.data.payee,
-          amount: validatedBody.data.amount,
-          categoryId: validatedBody.data.categoryId,
-          memo: validatedBody.data.memo,
-          date: validatedBody.data.date ?? new Date(),
-        },
+      const transaction = await createTransaction({
+        ...validatedBody.data, // object spread syntax
       });
-      console.log("[TRANSACTIONS] Transaction created:", transactionInsert.id);
+      console.log("[TRANSACTIONS] Transaction created:", transaction.id);
 
-      return NextResponse.json(transactionInsert, { status: 201 });
+      return NextResponse.json(transaction, { status: 201 });
     } catch (e) {
       console.error("[TRANSACTIONS] Failed to insert transaction:", e);
       return NextResponse.json(

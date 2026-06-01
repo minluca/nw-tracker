@@ -1,7 +1,13 @@
 import { verifyWebhook } from "@clerk/nextjs/webhooks";
 import { NextRequest } from "next/server";
-import prisma from "../../../../lib/prisma";
+import { createUser } from "@/lib/db/users";
 
+/**
+ * Handles Clerk webhook events.
+ * On user.created, syncs the new user to the local database.
+ *
+ * @returns 200 if the webhook was processed, 400 if verification fails or userId is missing.
+ */
 export async function POST(req: NextRequest) {
   try {
     const evt = await verifyWebhook(req);
@@ -26,12 +32,7 @@ export async function POST(req: NextRequest) {
         // email_addresses is a list - take the primary one
         const userEmail = evt.data.email_addresses[0]?.email_address;
 
-        await prisma.user.create({
-          data: {
-            clerkUserId: id,
-            email: userEmail ?? "",
-          },
-        });
+        await createUser(id, userEmail);
         console.log("User created in db: " + id);
 
         break;
