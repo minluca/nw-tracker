@@ -1,4 +1,5 @@
 import { withAuth } from "@/lib/api";
+import { calculateInvestments, calculateLiquidity } from "@/lib/calculations";
 import { getAccountsWithTransactions } from "@/lib/db/accounts";
 import { getAssetOrderByAccountIds } from "@/lib/db/assets";
 import { getLastMonthlySnapshot } from "@/lib/db/snapshots";
@@ -15,26 +16,13 @@ export async function GET(request: NextRequest) {
     try {
       const accounts = await getAccountsWithTransactions(user.id);
 
-      // Calculate liquidity: for each account, sum openingBalance + income - expenses
-      const liquidity = accounts.reduce((total, account) => {
-        const transactionSum = account.transactions.reduce((sum, tx) => {
-          return tx.type === "income"
-            ? sum + Number(tx.amount)
-            : sum - Number(tx.amount);
-        }, 0);
-        return total + Number(account.openingBalance) + transactionSum;
-      }, 0);
+      const liquidity = calculateLiquidity(accounts);
 
       const assetOrders = await getAssetOrderByAccountIds(
         accounts.map((a) => a.id),
       );
 
-      // Calculate investment value: SUM(deltaUnits * latestPrice) for each asset order
-      const investments = assetOrders.reduce((total, order) => {
-        const price = Number(order.asset.assetPrices[0]?.price ?? 0);
-        const units = Number(order.deltaUnits);
-        return total + price * units;
-      }, 0);
+      const investments = calculateInvestments(assetOrders);
 
       const totalNw = liquidity + investments;
 
