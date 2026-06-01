@@ -7,10 +7,14 @@ import { calculateLiquidity, calculateInvestments } from "@/lib/calculations";
 import { getLastMonthlySnapshot } from "@/lib/db/snapshots";
 import NetWorthCard from "@/components/NetWorthCard";
 import AddTransactionButton from "@/components/AddTransactionButton";
+import { currentUser } from "@clerk/nextjs/server";
+import Greeting from "@/components/Greeting";
 
 export default async function Home() {
   const user = await getAuthenticatedUser();
   if (!user) return null;
+  const clerkUser = await currentUser();
+  const firstName = clerkUser?.firstName ?? user.email.split("@")[0];
 
   const transactions = await getLastFiveTransactions(user.id);
 
@@ -29,6 +33,7 @@ export default async function Home() {
 
   return (
     <main className="p-4 flex flex-col gap-4">
+      <Greeting firstName={firstName}></Greeting>
       <AddTransactionButton></AddTransactionButton>
       <NetWorthCard
         liquidity={liquidity}
