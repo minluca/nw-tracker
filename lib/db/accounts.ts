@@ -100,3 +100,23 @@ export async function createAccount(
     throw new Error("[DB] Failed to create account: " + e);
   }
 }
+
+/**
+ * Deletes an account by ID.
+ *
+ * @param id - the account ID to delete
+ * @returns the deleted account record
+ * @throws if the database delete fails
+ */
+export async function deleteAccount(id: string) {
+  try {
+    return await prisma.account.delete({
+      where: {
+        id: id,
+      },
+    });
+  } catch (e) {
+    console.error("[DB] Failed to delete account: ", e);
+    throw new Error("[DB] Failed to delete account: " + e);
+  }
+}
