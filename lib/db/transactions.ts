@@ -54,7 +54,7 @@ export async function createTransaction(input: {
   amount: number;
   categoryId?: string;
   memo?: string;
-  date?: Date;
+  date: Date;
 }) {
   try {
     return await prisma.transaction.create({
@@ -65,7 +65,7 @@ export async function createTransaction(input: {
         amount: input.amount,
         categoryId: input.categoryId,
         memo: input.memo,
-        date: input.date ?? new Date(),
+        date: input.date,
       },
     });
   } catch (e) {

@@ -50,6 +50,7 @@ export async function POST(request: NextRequest) {
 
       const transaction = await createTransaction({
         ...validatedBody.data, // object spread syntax
+        date: validatedBody.data.date ?? new Date(),
       });
       console.log("[TRANSACTIONS] Transaction created:", transaction.id);
 
