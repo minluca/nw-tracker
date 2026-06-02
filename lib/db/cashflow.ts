@@ -8,7 +8,7 @@ import prisma from "../prisma";
  * @returns list of accounts with current month transactions (amount and type)
  * @throws if the database query fails
  */
-export async function getCurrentMonthCashflow(userId: string) {
+export async function getRunningMonthCashflow(userId: string) {
   try {
     const now = new Date();
     const year = now.getFullYear();

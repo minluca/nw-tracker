@@ -1,6 +1,6 @@
 import { withAuth } from "@/lib/api";
 import { calculateCashflow } from "@/lib/calculations";
-import { getCurrentMonthCashflow } from "@/lib/db/cashflow";
+import { getRunningMonthCashflow as getRunningMonthCashflow } from "@/lib/db/cashflow";
 import { NextRequest, NextResponse } from "next/server";
 
 /**
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   return withAuth(async (user) => {
     try {
       const accountsWithCurrentMonthTransactions =
-        await getCurrentMonthCashflow(user.id);
+        await getRunningMonthCashflow(user.id);
 
       const { income, expenses } = calculateCashflow(
         accountsWithCurrentMonthTransactions,
