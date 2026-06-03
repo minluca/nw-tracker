@@ -11,9 +11,7 @@ export default function Greeting({ firstName }: GreetingProps) {
 
   return (
     <div className="px-1">
-      <p className="text-sm text-gray-400 dark:text-gray-500">
-        Ciao, {firstName}
-      </p>
+      <p className="label-xs-plain">Ciao, {firstName}</p>
       <p className="text-xl font-semibold capitalize">{month}</p>
     </div>
   );

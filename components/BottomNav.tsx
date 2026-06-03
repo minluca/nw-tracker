@@ -19,15 +19,15 @@ export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-lg border-t border-gray-200 bg-white/95 backdrop-blur-sm flex justify-around items-center h-16 rounded-t-2xl shadow-lg">
+    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-lg border-t border-border bg-card/95 backdrop-blur-sm flex justify-around items-center h-16 rounded-t-2xl shadow-lg">
       {" "}
       {navItems.map((item) => (
         <Link
           key={item.href}
           href={item.href}
           className={cn(
-            "flex flex-col items-center gap-1 text-xs text-gray-400",
-            pathname === item.href && "text-black font-medium",
+            "flex flex-col items-center gap-1 text-xs text-muted-foreground",
+            pathname === item.href && "text-foreground font-medium",
           )}
         >
           <i className={`ti ${item.icon} text-xl`} />

@@ -18,9 +18,7 @@ export default function TransactionList({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm text-gray-500">
-          Ultime transazioni
-        </CardTitle>
+        <CardTitle className="label-xs-plain">Ultime transazioni</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         {transactions.map((transaction) => (
@@ -29,8 +27,8 @@ export default function TransactionList({
             className="flex justify-between items-center p-3 border-b"
           >
             <div className="flex flex-col">
-              <span className="font-medium">{transaction.payee}</span>
-              <span className="text-xs text-gray-400">
+              <span className="value-sm">{transaction.payee}</span>
+              <span className="label-xs-plain">
                 {transaction.category?.name &&
                   `${transaction.category.name} · `}
                 {new Date(transaction.date).toLocaleDateString("it-IT")}{" "}
@@ -39,8 +37,8 @@ export default function TransactionList({
             <span
               className={
                 transaction.type === "income"
-                  ? "text-green-500"
-                  : "text-red-500"
+                  ? "value-positive"
+                  : "value-negative"
               }
             >
               {transaction.type === "income" ? "+" : "-"} €

@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 export default function Settings() {
   return (
     <main className="p-4 flex flex-col gap-4">
-      <h1 className="text-xl font-semibold">Impostazioni</h1>
+      <h1>Impostazioni</h1>
       <Card>
         <CardContent className="p-0">
           <Link
@@ -15,7 +15,7 @@ export default function Settings() {
               <i className="ti ti-building-bank text-xl" />
               <span>Account</span>
             </div>
-            <i className="ti ti-chevron-right text-gray-400" />
+            <i className="ti ti-chevron-right text-muted-foreground" />
           </Link>
           <Link
             href="/settings/categories"
@@ -25,7 +25,7 @@ export default function Settings() {
               <i className="ti ti-tag text-xl" />
               <span>Categorie</span>
             </div>
-            <i className="ti ti-chevron-right text-gray-400" />
+            <i className="ti ti-chevron-right text-muted-foreground" />
           </Link>
           <Link
             href="/settings/profile"
@@ -35,7 +35,7 @@ export default function Settings() {
               <i className="ti ti-user text-xl" />
               <span>Profilo</span>
             </div>
-            <i className="ti ti-chevron-right text-gray-400" />
+            <i className="ti ti-chevron-right text-muted-foreground" />
           </Link>
         </CardContent>
       </Card>

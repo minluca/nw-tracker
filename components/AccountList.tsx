@@ -24,7 +24,7 @@ export default function AccountList({ accounts }: { accounts: AccountItem[] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm text-gray-500">Lista di Conti</CardTitle>
+        <CardTitle className="label-xs-plain">Lista di Conti</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         {accounts.map((account) => (
@@ -34,7 +34,7 @@ export default function AccountList({ accounts }: { accounts: AccountItem[] }) {
           >
             <div className="flex flex-col">
               <span className="value-sm">{account.name}</span>
-              <span className="label-xs">
+              <span className="label-xs-plain">
                 {account.type} · € {String(account.openingBalance)}
               </span>
             </div>

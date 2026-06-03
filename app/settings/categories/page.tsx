@@ -13,7 +13,7 @@ export default async function Settings() {
 
   return (
     <main className="p-4 flex flex-col gap-4">
-      <h1 className="text-xl font-semibold">Account</h1>
+      <h1>Account</h1>
       <CategoryList categories={categories}></CategoryList>
       <AddCategoryButton></AddCategoryButton>
     </main>
