@@ -19,7 +19,7 @@ export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-lg border-t border-gray-200 bg-white/95 backdrop-blur-sm flex justify-around items-center h-16">
+    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-lg border-t border-gray-200 bg-white/95 backdrop-blur-sm flex justify-around items-center h-16 rounded-t-2xl shadow-lg">
       {" "}
       {navItems.map((item) => (
         <Link

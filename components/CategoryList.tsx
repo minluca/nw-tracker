@@ -26,7 +26,7 @@ export default function CategoryList({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm text-gray-500 uppercase tracking-wide">
+        <CardTitle className="text-sm text-gray-500">
           Lista di Categorie
         </CardTitle>
       </CardHeader>
@@ -43,8 +43,8 @@ export default function CategoryList({
               Elimina
             </button>
             <div className="flex flex-col">
-              <span className="font-medium">{category.name}</span>
-              <span className="text-xs text-gray-400">{category.type}</span>
+              <span className="value-sm">{category.name}</span>
+              <span className="label-xs">{category.type}</span>
             </div>
           </div>
         ))}

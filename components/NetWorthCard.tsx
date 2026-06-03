@@ -19,9 +19,7 @@ export default function NetWorthCard({
         <CardTitle className="text-sm text-gray-500">Net Worth</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-4xl font-bold">
-          € {totalNw.toLocaleString("it-IT")}
-        </p>
+        <p className="value-lg">€ {totalNw.toLocaleString("it-IT")}</p>
         {previousMonthDelta !== null && (
           <p
             className={`text-sm mt-1 ${previousMonthDelta >= 0 ? "text-green-500" : "text-red-500"}`}
@@ -32,14 +30,12 @@ export default function NetWorthCard({
         )}
         <div className="flex gap-4 mt-4">
           <div className="flex-1 bg-gray-50 rounded-lg p-3">
-            <p className="text-xs text-gray-400">Liquidità</p>
-            <p className="font-medium">€ {liquidity.toLocaleString("it-IT")}</p>
+            <p className="label-xs">Liquidità</p>
+            <p className="value-md">€ {liquidity.toLocaleString("it-IT")}</p>
           </div>
           <div className="flex-1 bg-gray-50 rounded-lg p-3">
-            <p className="text-xs text-gray-400">Investimenti</p>
-            <p className="font-medium">
-              € {investments.toLocaleString("it-IT")}
-            </p>
+            <p className="label-xs">Investimenti</p>
+            <p className="value-md">€ {investments.toLocaleString("it-IT")}</p>
           </div>
         </div>
       </CardContent>

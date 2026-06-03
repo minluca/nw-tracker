@@ -48,7 +48,8 @@ export default async function Home() {
     calculateCashflow(accountsWithRunningMonthTransactions);
 
   return (
-    <main className="p-4 pt-6 flex flex-col gap-4">
+    <main className="p-4 pt-6 flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:gap-6 lg:pt-8">
+      {" "}
       <Greeting firstName={firstName} />
       <div className="flex justify-center">
         <AddTransactionButton />

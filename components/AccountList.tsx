@@ -24,9 +24,7 @@ export default function AccountList({ accounts }: { accounts: AccountItem[] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm text-gray-500 uppercase tracking-wide">
-          Lista di Conti
-        </CardTitle>
+        <CardTitle className="text-sm text-gray-500">Lista di Conti</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         {accounts.map((account) => (
@@ -34,18 +32,18 @@ export default function AccountList({ accounts }: { accounts: AccountItem[] }) {
             key={account.id}
             className="flex justify-between items-center p-3 border-b"
           >
+            <div className="flex flex-col">
+              <span className="value-sm">{account.name}</span>
+              <span className="label-xs">
+                {account.type} · € {String(account.openingBalance)}
+              </span>
+            </div>
             <button
               onClick={() => handleDelete(account.id)}
               className="text-red-400 text-xs"
             >
               Elimina
             </button>
-            <div className="flex flex-col">
-              <span className="font-medium">{account.name}</span>
-              <span className="text-xs text-gray-400">
-                {account.type} · € {String(account.openingBalance)}
-              </span>
-            </div>
           </div>
         ))}
       </CardContent>

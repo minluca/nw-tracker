@@ -52,7 +52,7 @@
 :root {
   --background: oklch(0.97 0.01 80);
   --foreground: oklch(0.2 0.02 60);
-  --card: oklch(0.99 0.005 80);
+  --card: oklch(0.995 0.008 80);
   --card-foreground: oklch(0.2 0.02 60);
   --popover: oklch(0.99 0.005 80);
   --popover-foreground: oklch(0.2 0.02 60);
@@ -101,5 +101,32 @@
   }
   html {
     @apply font-sans;
+  }
+  h1 {
+    @apply text-2xl font-bold;
+  }
+  h2 {
+    @apply text-xl font-semibold;
+  }
+  h3 {
+    @apply text-lg font-medium;
+  }
+  p {
+    @apply text-sm leading-relaxed;
+  }
+}
+
+@layer components {
+  .label-xs {
+    @apply text-xs font-medium text-muted-foreground uppercase tracking-wider;
+  }
+  .value-lg {
+    @apply text-2xl font-bold;
+  }
+  .value-md {
+    @apply text-base font-semibold;
+  }
+  .value-sm {
+    @apply text-sm font-medium;
   }
 }
