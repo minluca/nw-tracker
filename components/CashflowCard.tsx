@@ -11,9 +11,7 @@ export default function CashflowCard({ income, expenses }: CashflowCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm text-gray-500 uppercase tracking-wide">
-          Mese corrente
-        </CardTitle>
+        <CardTitle className="text-sm text-gray-500">Mese corrente</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex gap-4">

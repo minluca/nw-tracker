@@ -16,9 +16,7 @@ export default function NetWorthCard({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm text-gray-500 uppercase tracking-wide">
-          Net Worth
-        </CardTitle>
+        <CardTitle className="text-sm text-gray-500">Net Worth</CardTitle>
       </CardHeader>
       <CardContent>
         <p className="text-3xl font-semibold">

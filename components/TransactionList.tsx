@@ -18,7 +18,7 @@ export default function TransactionList({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm text-gray-500 uppercase tracking-wide">
+        <CardTitle className="text-sm text-gray-500">
           Ultime transazioni
         </CardTitle>
       </CardHeader>
@@ -31,8 +31,9 @@ export default function TransactionList({
             <div className="flex flex-col">
               <span className="font-medium">{transaction.payee}</span>
               <span className="text-xs text-gray-400">
-                {transaction.category?.name} ·{" "}
-                {new Date(transaction.date).toLocaleDateString("it-IT")}
+                {transaction.category?.name &&
+                  `${transaction.category.name} · `}
+                {new Date(transaction.date).toLocaleDateString("it-IT")}{" "}
               </span>
             </div>
             <span
@@ -42,8 +43,8 @@ export default function TransactionList({
                   : "text-red-500"
               }
             >
-              {transaction.type === "income" ? "+" : "-"}{" "}
-              {String(transaction.amount)} {transaction.currency}
+              {transaction.type === "income" ? "+" : "-"} €
+              {String(transaction.amount)}{" "}
             </span>
           </div>
         ))}

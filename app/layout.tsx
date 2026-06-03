@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} antialiased`}>
         <ClerkProvider>
-          <main className="pb-16">{children}</main>
+          <main className="pb-16 max-w-lg mx-auto">{children}</main>
           <BottomNav />
         </ClerkProvider>
       </body>
