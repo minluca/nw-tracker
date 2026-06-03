@@ -50,7 +50,9 @@ export default async function Home() {
   return (
     <main className="p-4 pt-6 flex flex-col gap-4">
       <Greeting firstName={firstName} />
-      <AddTransactionButton />
+      <div className="flex justify-center">
+        <AddTransactionButton />
+      </div>
       <NetWorthCard
         liquidity={liquidity}
         investments={investmentsValue}

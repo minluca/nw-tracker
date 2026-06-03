@@ -19,7 +19,7 @@ export default function NetWorthCard({
         <CardTitle className="text-sm text-gray-500">Net Worth</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-3xl font-semibold">
+        <p className="text-4xl font-bold">
           € {totalNw.toLocaleString("it-IT")}
         </p>
         {previousMonthDelta !== null && (

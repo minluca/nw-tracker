@@ -70,9 +70,12 @@ export default function AddTransactionButton() {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} className="w-full">
+      <Button
+        onClick={() => setOpen(true)}
+        className="w-full rounded-2xl py-6 text-base font-medium"
+      >
         + Aggiungi transazione
-      </Button>
+      </Button>{" "}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
